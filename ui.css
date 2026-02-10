@@ -1,28 +1,31 @@
-
-/* =========================
-   ESPMiniCam Clean Mobile UI
-   ========================= */
+/* =========================================================
+   ESPMiniCam UI — scoped + deterministic
+   Rules:
+   - everything padded 10px
+   - video: 16px radius + 10px padding
+   - buttons: 50px tall
+   ========================================================= */
 
 :root{
+  --pad: 10px;
+  --r: 16px;
+
   --bg1:#0b1220;
   --bg2:#0e1a2b;
-  --card:#0f1f35;
-  --glass:rgba(255,255,255,.06);
-  --line:rgba(255,255,255,.10);
-  --text:#e5e7eb;
-  --muted:#94a3b8;
-  --accent:#3b82f6;
+  --glass: rgba(255,255,255,.06);
+  --line:  rgba(255,255,255,.10);
+  --text:  #e5e7eb;
+  --muted: rgba(229,231,235,.70);
+  --muted2: rgba(148,163,184,.92);
+  --accent: rgba(59,130,246,.40);
+  --accent2: rgba(59,130,246,.22);
   --ok:#22c55e;
-  --pad:10px;
-  --radius:16px;
 }
 
-*{ box-sizing:border-box; }
-
-html,body{
+html, body{
   margin:0;
   padding:0;
-  min-height:100%;
+  height:100%;
   background:
     radial-gradient(1200px 600px at 20% -10%, #16264a 0%, transparent 60%),
     linear-gradient(180deg, var(--bg2), var(--bg1));
@@ -34,173 +37,19 @@ body.mc-skin{
   overflow-x:hidden;
 }
 
-/* ===== Layout ===== */
-#minicam-launcher{
-  padding: var(--pad);
-  min-height:100vh;
-}
-
-.mc-wrap{
-  width:100%;
-  max-width:980px;
-  margin:0 auto;
-  display:flex;
-  flex-direction:column;
-  gap: var(--pad);
-}
-
-/* ===== Header ===== */
-.mc-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap: var(--pad);
-  padding: var(--pad);
-  border-radius: var(--radius);
-  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-  border:1px solid var(--line);
-  backdrop-filter: blur(8px);
-}
-
-.mc-title{
-  font-size:18px;
-  font-weight:800;
-  line-height:1.15;
-}
-.mc-sub{
-  margin-top:2px;
-  font-size:13px;
-  color:var(--muted);
-}
-
-.mc-pill{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding: 8px 12px;
-  border-radius:999px;
-  background: var(--glass);
-  border:1px solid var(--line);
-  font-size:13px;
-  font-weight:700;
-}
-.mc-dot{
-  width:10px;height:10px;border-radius:50%;
-  background: var(--ok);
-}
-
-/* ===== Card ===== */
-.mc-card{
-  border-radius: var(--radius);
-  overflow:hidden;
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-  border:1px solid var(--line);
-}
-
-.mc-cardhead{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding: var(--pad);
-  font-size:13px;
-  color:var(--muted);
-  border-bottom:1px solid var(--line);
-}
-.mc-cardhead span:first-child{
-  font-weight:800;
-  color:var(--text);
-}
-
-/* ===== Preview (video) ===== */
-.mc-preview{
-  padding: var(--pad);
-  background:#000;
-}
-
-.mc-preview iframe,
-.mc-preview img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius: var(--radius);
-  background:#000;
-  border:1px solid rgba(255,255,255,.08);
-}
-
-/* Maintain aspect ratio */
-.mc-preview{
-  aspect-ratio: 4 / 3;
-}
-@media (min-width:560px){
-  .mc-preview{ aspect-ratio: 16 / 10; }
-}
-
-/* ===== Buttons ===== */
-.mc-row{
-  display:grid;
-  grid-template-columns:1fr;
-  gap: var(--pad);
-  padding: var(--pad);
-}
-@media (min-width:521px){
-  .mc-row{ grid-template-columns:1fr 1fr; }
-}
-
-.mc-btn{
-  height:50px;
-  border-radius: var(--radius);
-  padding: 0 14px;
-  font-size:15px;
-  font-weight:800;
-  letter-spacing:.2px;
-  color:var(--text);
-  background: var(--glass);
-  border:1px solid var(--line);
-  box-shadow:
-    0 1px 0 rgba(255,255,255,.06) inset,
-    0 10px 30px rgba(0,0,0,.22);
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.mc-btn:active{
-  transform:translateY(1px);
-  filter:brightness(1.05);
-}
-
-.mc-btn.mc-primary{
-  background: linear-gradient(180deg, rgba(59,130,246,.34), rgba(59,130,246,.18));
-  border-color: rgba(59,130,246,.45);
-}
-
-/* ===== Hint ===== */
-.mc-hint{
-  padding: 0 var(--pad) var(--pad) var(--pad);
-  font-size:13px;
-  color:var(--muted);
-}
-
-/* Hide default ESPHome UI */
+/* Hide default ESPHome UI completely */
 body.mc-skin > *:not(#minicam-launcher){
   display:none !important;
 }
+
 /* =========================================================
-   HARD OVERRIDES – keep at very bottom of ui.css
-   Goal: pad everything 10px, buttons 50px tall, modern layout
+   LAYOUT
    ========================================================= */
-
-:root{
-  --pad: 10px;
-  --r: 16px;
-}
-
 #minicam-launcher{
   padding: var(--pad) !important;
+  min-height: 100vh;
 }
 
-/* Use full width and consistent spacing */
 #minicam-launcher .mc-wrap{
   width: 100% !important;
   max-width: 980px !important;
@@ -210,12 +59,17 @@ body.mc-skin > *:not(#minicam-launcher){
   gap: var(--pad) !important;
 }
 
-/* Header */
+/* =========================================================
+   HEADER
+   ========================================================= */
 #minicam-launcher .mc-top{
   padding: var(--pad) !important;
   border-radius: var(--r) !important;
-  display: flex !important;
-  align-items: center !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)) !important;
+  border: 1px solid var(--line) !important;
+  backdrop-filter: blur(8px);
+  display:flex !important;
+  align-items:center !important;
   justify-content: space-between !important;
   gap: var(--pad) !important;
 }
@@ -223,56 +77,113 @@ body.mc-skin > *:not(#minicam-launcher){
 #minicam-launcher .mc-title{
   font-size: 18px !important;
   font-weight: 800 !important;
+  line-height: 1.15 !important;
+  letter-spacing: .2px;
 }
 
 #minicam-launcher .mc-sub{
+  margin-top: 2px !important;
   font-size: 13px !important;
-  opacity: .8 !important;
+  color: var(--muted2) !important;
 }
 
-/* Card + labels */
+#minicam-launcher .mc-pill{
+  display:flex !important;
+  align-items:center !important;
+  gap: 8px !important;
+  padding: 8px 12px !important;
+  border-radius: 999px !important;
+  background: var(--glass) !important;
+  border: 1px solid var(--line) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+#minicam-launcher .mc-dot{
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,.25) !important;
+}
+
+/* When JS toggles "ok", make it green */
+#minicam-launcher .mc-dot.ok{
+  background: var(--ok) !important;
+}
+
+/* =========================================================
+   CARD
+   ========================================================= */
 #minicam-launcher .mc-card{
   border-radius: var(--r) !important;
   overflow: hidden !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)) !important;
+  border: 1px solid var(--line) !important;
 }
 
 #minicam-launcher .mc-cardhead{
   padding: var(--pad) !important;
   display:flex !important;
+  align-items:center !important;
   justify-content: space-between !important;
-  align-items: center !important;
+  gap: var(--pad) !important;
   font-size: 13px !important;
-  opacity: .85 !important;
+  color: var(--muted) !important;
+  border-bottom: 1px solid var(--line) !important;
 }
 
-/* VIDEO: 10px padding around it + 16px radius */
+#minicam-launcher .mc-cardhead span:first-child{
+  font-weight: 800 !important;
+  color: rgba(229,231,235,.88) !important;
+}
+
+#minicam-launcher .mc-muted{
+  font-weight: 700 !important;
+  color: var(--muted2) !important;
+}
+
+/* =========================================================
+   VIDEO / PREVIEW
+   - 10px padding around video
+   - 16px radius on video
+   ========================================================= */
 #minicam-launcher .mc-preview{
   padding: var(--pad) !important;
   background: transparent !important;
 }
 
+/* Keep aspect ratio via the preview container */
+#minicam-launcher .mc-preview{
+  aspect-ratio: 4 / 3 !important;
+}
+@media (min-width: 560px){
+  #minicam-launcher .mc-preview{
+    aspect-ratio: 16 / 10 !important;
+  }
+}
+
+/* The image fills the preview box */
+#minicam-launcher .mc-preview #mc-preview-img,
 #minicam-launcher .mc-preview img,
 #minicam-launcher .mc-preview iframe{
   width: 100% !important;
   height: 100% !important;
-  border-radius: var(--r) !important;
   display:block !important;
   object-fit: cover !important;
-  border: 0 !important;
-  overflow: hidden !important;
+  border-radius: var(--r) !important;
+  background: #000 !important;
+  border: 1px solid rgba(255,255,255,.08) !important;
 }
 
-/* Keep a sensible aspect ratio */
-#minicam-launcher .mc-preview{ aspect-ratio: 4 / 3 !important; }
-@media (min-width:560px){
-  #minicam-launcher .mc-preview{ aspect-ratio: 16 / 10 !important; }
-}
-
-/* BUTTONS: 50px tall, centered, chunky */
+/* =========================================================
+   BUTTONS
+   - 50px tall
+   - everything padded 10px
+   ========================================================= */
 #minicam-launcher .mc-row{
   padding: var(--pad) !important;
-  gap: var(--pad) !important;
   display: grid !important;
+  gap: var(--pad) !important;
   grid-template-columns: 1fr 1fr !important;
 }
 
@@ -286,9 +197,10 @@ body.mc-skin > *:not(#minicam-launcher){
 #minicam-launcher button.mc-btn{
   height: 50px !important;
   min-height: 50px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
 
   border-radius: var(--r) !important;
   padding: 0 14px !important;
@@ -297,24 +209,36 @@ body.mc-skin > *:not(#minicam-launcher){
   font-weight: 800 !important;
   letter-spacing: .2px !important;
 
-  text-decoration: none !important;
-  user-select: none !important;
+  color: var(--text) !important;
+  background: var(--glass) !important;
+  border: 1px solid var(--line) !important;
+
+  text-decoration:none !important;
+  user-select:none !important;
   -webkit-tap-highlight-color: transparent !important;
+
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 10px 30px rgba(0,0,0,.22) !important;
 }
 
-/* Strong primary */
-#minicam-launcher .mc-btn.mc-primary{
-  filter: none !important;
+#minicam-launcher a.mc-btn.mc-primary,
+#minicam-launcher button.mc-btn.mc-primary{
+  background: linear-gradient(180deg, var(--accent), var(--accent2)) !important;
+  border-color: rgba(59,130,246,.45) !important;
 }
 
-/* Hint spacing */
+#minicam-launcher a.mc-btn:active,
+#minicam-launcher button.mc-btn:active{
+  transform: translateY(1px) !important;
+  filter: brightness(1.06) !important;
+}
+
+/* =========================================================
+   HINT
+   ========================================================= */
 #minicam-launcher .mc-hint{
   padding: 0 var(--pad) var(--pad) var(--pad) !important;
   font-size: 13px !important;
-  opacity: .8 !important;
-}
-
-/* Nuke leftover ESPHome layout below */
-body.mc-skin > *:not(#minicam-launcher){
-  display:none !important;
+  color: var(--muted2) !important;
 }
