@@ -1,29 +1,96 @@
 :root{
-  --bg:#0b1220; --card:#101a2e; --muted:#94a3b8; --text:#e5e7eb;
-  --border:rgba(255,255,255,.10); --ok:#22c55e; --bad:#ef4444; --r:18px;
+  --bg:#0b1220;
+  --card:#101a2e;
+  --muted:#94a3b8;
+  --text:#e5e7eb;
+  --border:rgba(255,255,255,.10);
+  --ok:#22c55e;
+  --bad:#ef4444;
+  --accent:#3b82f6;
+  --r:18px;
 }
-*{box-sizing:border-box}
+
 body{
-  margin:0; padding:16px;
-  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  margin:0;
   background:
     radial-gradient(900px 600px at 20% 0%, rgba(59,130,246,.22), transparent 55%),
     radial-gradient(900px 600px at 90% -10%, rgba(34,197,94,.18), transparent 55%),
-    var(--bg);
-  color:var(--text);
+    var(--bg) !important;
+  color:var(--text) !important;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial !important;
 }
-.wrap{max-width:720px; margin:0 auto}
-.top{
+
+/* Launcher panel */
+#minicam-launcher{ padding:16px; }
+.mc-wrap{ max-width:720px; margin:0 auto; }
+.mc-top{
   display:flex; justify-content:space-between; align-items:center; gap:12px;
-  padding:14px; border:1px solid var(--border); border-radius:var(--r);
-  background: rgba(16,26,46,.75); backdrop-filter: blur(10px);
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  background: rgba(16,26,46,.75);
+  backdrop-filter: blur(10px);
 }
-.name{font-weight:800; letter-spacing:.2px}
-.sub{font-size:12px; color:var(--muted); margin-top:2px}
-.chip{
+.mc-title{ font-weight:800; letter-spacing:.2px; font-size:18px; }
+.mc-sub{ font-size:12px; color:var(--muted); margin-top:2px; }
+.mc-pill{
   display:inline-flex; align-items:center; gap:8px;
-  padding:8px 12px; border-radius:999px;
-  border:1px solid var(--border); background: rgba(255,255,255,.04);
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.04);
   font-size:13px; color:var(--muted);
 }
-.dot{width:9px; height:9px; border-radius:9
+.mc-dot{ width:9px; height:9px; border-radius:999px; background:var(--bad); }
+.mc-dot.ok{ background:var(--ok); }
+
+.mc-card{
+  margin-top:14px;
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  background: rgba(16,26,46,.70);
+  overflow:hidden;
+}
+.mc-cardhead{
+  display:flex; justify-content:space-between;
+  padding:12px 14px;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+  color:var(--muted);
+}
+.mc-muted{ color:var(--muted); }
+.mc-row{
+  display:flex; gap:10px; padding:14px;
+  flex-wrap:wrap;
+}
+.mc-btn{
+  flex:1; min-width:160px;
+  display:inline-flex; justify-content:center; align-items:center;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.05);
+  color:var(--text);
+  font-weight:800;
+  text-decoration:none;
+}
+.mc-btn.mc-primary{
+  background: rgba(59,130,246,.22);
+  border-color: rgba(59,130,246,.40);
+}
+.mc-hint{
+  padding:0 14px 14px 14px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* Hide most of the default ESPHome UI so it feels like a dedicated page */
+body.mc-skin main,
+body.mc-skin .content,
+body.mc-skin esphome-app,
+body.mc-skin #content {
+  display: none !important;
+}
+
+/* If ESPHome wraps differently on your build, keep body background + our launcher visible */
+body.mc-skin #minicam-launcher { display:block !important; }
