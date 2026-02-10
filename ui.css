@@ -1,341 +1,172 @@
+/* =========================
+   ESPMiniCam Mobile UI
+   ========================= */
+
 :root{
-  --bg:#0b1220;
-  --card:#101a2e;
-  --muted:#94a3b8;
+  --bg1:#0b1220;
+  --bg2:#0e1a2b;
+  --card:#0f1f35;
+  --glass:rgba(255,255,255,.06);
+  --line:rgba(255,255,255,.10);
   --text:#e5e7eb;
-  --border:rgba(255,255,255,.10);
-  --ok:#22c55e;
-  --bad:#ef4444;
+  --muted:#94a3b8;
   --accent:#3b82f6;
-  --r:18px;
+  --ok:#22c55e;
 }
 
-body{
+*{ box-sizing:border-box; }
+
+html,body{
   margin:0;
-  background:
-    radial-gradient(900px 600px at 20% 0%, rgba(59,130,246,.22), transparent 55%),
-    radial-gradient(900px 600px at 90% -10%, rgba(34,197,94,.18), transparent 55%),
-    var(--bg) !important;
-  color:var(--text) !important;
-  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial !important;
+  padding:0;
+  min-height:100%;
+  background: radial-gradient(1200px 600px at 20% -10%, #16264a 0%, transparent 60%),
+              linear-gradient(180deg, var(--bg2), var(--bg1));
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif;
+  color: var(--text);
 }
 
-/* Launcher panel */
-#minicam-launcher{ padding:16px; }
-.mc-wrap{ max-width:720px; margin:0 auto; }
-.mc-top{
-  display:flex; justify-content:space-between; align-items:center; gap:12px;
+body.mc-skin{
+  overflow-x:hidden;
+}
+
+#minicam-launcher{
   padding:14px;
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  background: rgba(16,26,46,.75);
-  backdrop-filter: blur(10px);
+  min-height:100vh;
 }
-.mc-title{ font-weight:800; letter-spacing:.2px; font-size:18px; }
-.mc-sub{ font-size:12px; color:var(--muted); margin-top:2px; }
-.mc-pill{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid var(--border);
-  background: rgba(255,255,255,.04);
-  font-size:13px; color:var(--muted);
-}
-.mc-dot{ width:9px; height:9px; border-radius:999px; background:var(--bad); }
-.mc-dot.ok{ background:var(--ok); }
 
-.mc-card{
-  margin-top:14px;
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  background: rgba(16,26,46,.70);
-  overflow:hidden;
+.mc-wrap{
+  width:100%;
+  max-width:980px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
-.mc-cardhead{
-  display:flex; justify-content:space-between;
-  padding:12px 14px;
-  border-bottom:1px solid var(--border);
+
+/* ===== Header ===== */
+.mc-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border:1px solid var(--line);
+  backdrop-filter: blur(8px);
+}
+
+.mc-title{
+  font-size:18px;
+  font-weight:800;
+  line-height:1.15;
+}
+.mc-sub{
+  margin-top:4px;
   font-size:13px;
   color:var(--muted);
 }
-.mc-muted{ color:var(--muted); }
-.mc-row{
-  display:flex; gap:10px; padding:14px;
-  flex-wrap:wrap;
-}
-.mc-btn{
-  flex:1; min-width:160px;
-  display:inline-flex; justify-content:center; align-items:center;
-  padding:12px;
-  border-radius:14px;
-  border:1px solid var(--border);
-  background: rgba(255,255,255,.05);
-  color:var(--text);
-  font-weight:800;
-  text-decoration:none;
-}
-.mc-btn.mc-primary{
-  background: rgba(59,130,246,.22);
-  border-color: rgba(59,130,246,.40);
-}
-.mc-hint{
-  padding:0 14px 14px 14px;
-  font-size:12px;
-  color:var(--muted);
-}
 
-/* Hide most of the default ESPHome UI so it feels like a dedicated page */
-body.mc-skin main,
-body.mc-skin .content,
-body.mc-skin esphome-app,
-body.mc-skin #content {
-  display: none !important;
-}
-
-/* If ESPHome wraps differently on your build, keep body background + our launcher visible */
-body.mc-skin #minicam-launcher { display:block !important; }
-
-/* Remove any leftover spacing from the ESPHome page below our launcher */
-body.mc-skin {
-  min-height: 100vh;
-}
-body.mc-skin > *:not(#minicam-launcher) {
-  display: none !important;
-}
-html, body {
-  height: 100%;
-}
-
-.mc-preview{
-  width:100%;
-  aspect-ratio: 16/10;
-  background: rgba(0,0,0,.25);
-  border-bottom: 1px solid var(--border);
-}
-.mc-preview img{
-  width:100%;
-  height:100%;
-  object-fit: cover;
-  display:block;
-}
-
-/* ---- Responsive layout upgrades ---- */
-
-#minicam-launcher{
-  padding: 14px max(14px, env(safe-area-inset-left)) 18px max(14px, env(safe-area-inset-right));
-}
-
-/* Let the card use the screen on mobile */
-.mc-wrap{
-  max-width: 920px;          /* larger on tablets */
-  margin: 0 auto;
-  width: 100%;
-}
-
-.mc-card{
-  width: 100%;
-}
-
-/* Preview: taller on phones, less letterboxing */
-.mc-preview{
-  aspect-ratio: 4 / 3;       /* phone-friendly */
-}
-@media (min-width: 560px){
-  .mc-preview{ aspect-ratio: 16 / 10; }  /* nicer on larger screens */
-}
-
-/* Buttons: responsive grid */
-.mc-row{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  padding: 14px;
-}
-
-@media (min-width: 560px){
-  .mc-row{
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* Buttons: slightly larger tap targets on phones */
-.mc-btn{
-  min-width: 0;              /* allow full shrink */
-  padding: 14px 12px;
-  font-size: 15px;
-}
-
-/* Tighten top bar on small screens */
-.mc-top{
-  padding: 12px;
-  border-radius: 16px;
-}
-.mc-title{
-  font-size: 16px;
-}
-.mc-sub{
-  font-size: 12px;
-}
-
-/* Make the whole thing sit higher and feel intentional */
-.mc-card{
-  border-radius: 18px;
-}
-
-/* Optional: reduce empty space below (if any wrappers leak through) */
-body.mc-skin{
-  overflow-x: hidden;
-}
-
-/* ===== Mobile polish pass ===== */
-
-/* Use the screen better on phones */
-#minicam-launcher{
-  padding: 14px 14px 18px 14px;
-}
-
-.mc-wrap{
-  width: 100%;
-  max-width: 980px;
-  margin: 0 auto;
-}
-
-/* Header: stronger hierarchy */
-.mc-top{
-  padding: 14px 14px;
-  border-radius: 18px;
-  gap: 12px;
-}
-
-.mc-title{
-  font-size: 18px;
-  line-height: 1.15;
-  letter-spacing: .2px;
-}
-
-.mc-sub{
-  margin-top: 4px;
-  font-size: 13px;
-  color: rgba(229,231,235,.72);
-}
-
-/* Online chip: larger + clearer */
 .mc-pill{
-  padding: 10px 14px;
-  font-size: 13px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.06);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:999px;
+  background: var(--glass);
+  border:1px solid var(--line);
+  font-size:13px;
+  font-weight:700;
 }
-
 .mc-dot{
-  width: 10px;
-  height: 10px;
+  width:10px;height:10px;border-radius:50%;
+  background: var(--ok);
 }
 
-/* Card + labels */
+/* ===== Card ===== */
 .mc-card{
-  border-radius: 20px;
+  border-radius:20px;
+  overflow:hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border:1px solid var(--line);
 }
 
 .mc-cardhead{
-  padding: 12px 14px;
-  font-size: 13px;
-  letter-spacing: .2px;
-  color: rgba(229,231,235,.70);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 14px;
+  font-size:13px;
+  color:var(--muted);
+  border-bottom:1px solid var(--line);
 }
-
-/* Make the "Camera" and "Ports" look like labels */
 .mc-cardhead span:first-child{
-  font-weight: 700;
-  color: rgba(229,231,235,.82);
-}
-.mc-cardhead .mc-muted{
-  font-weight: 600;
-  color: rgba(148,163,184,.92);
+  font-weight:800;
+  color:var(--text);
 }
 
-/* Preview: keep it crisp */
+/* ===== Preview ===== */
 .mc-preview{
-  border-bottom: 1px solid rgba(255,255,255,.10);
+  width:100%;
+  aspect-ratio: 4 / 3;
+  background:#000;
+  overflow:hidden;
 }
+@media (min-width:560px){
+  .mc-preview{ aspect-ratio: 16 / 10; }
+}
+.mc-preview iframe,
 .mc-preview img{
-  display:block;
   width:100%;
   height:100%;
-  object-fit: cover;
+  object-fit:cover;
+  border:0;
 }
 
-/* Buttons: bigger, more modern, better spacing */
+/* ===== Buttons ===== */
 .mc-row{
-  padding: 12px 14px;
-  gap: 12px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  padding:12px 14px;
+}
+@media (min-width:521px){
+  .mc-row{ grid-template-columns:1fr 1fr; }
 }
 
 .mc-btn{
-  border-radius: 16px;
-  padding: 14px 14px;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: .2px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.10);
+  border-radius:16px;
+  padding:14px 14px;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.2px;
+  color:var(--text);
+  background: var(--glass);
+  border:1px solid var(--line);
   box-shadow:
     0 1px 0 rgba(255,255,255,.06) inset,
     0 10px 30px rgba(0,0,0,.22);
+  cursor:pointer;
+}
+.mc-btn:active{
+  transform:translateY(1px);
+  filter:brightness(1.05);
 }
 
-/* Primary button: more contrast */
 .mc-btn.mc-primary{
   background: linear-gradient(180deg, rgba(59,130,246,.34), rgba(59,130,246,.18));
   border-color: rgba(59,130,246,.45);
 }
 
-/* Button press feedback (mobile) */
-.mc-btn:active{
-  transform: translateY(1px);
-  filter: brightness(1.05);
-}
-
-/* Hint: readable but subtle */
+/* ===== Hint ===== */
 .mc-hint{
-  padding: 0 14px 14px 14px;
-  font-size: 13px;
-  color: rgba(148,163,184,.92);
+  padding:0 14px 14px 14px;
+  font-size:13px;
+  color:var(--muted);
 }
 
-/* ===== Responsive behavior ===== */
-
-/* On small phones: 1 column buttons */
-@media (max-width: 520px){
-  .mc-row{
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-}
-
-/* On larger phones/tablets: 2 columns */
-@media (min-width: 521px){
-  .mc-row{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* Give the card a little "lift" on large screens */
-@media (min-width: 900px){
-  .mc-top, .mc-card{
-    box-shadow: 0 18px 60px rgba(0,0,0,.28);
-  }
-}
-
-/* Hide everything except our launcher (prevents the huge empty area) */
+/* Hide default ESPHome junk */
 body.mc-skin > *:not(#minicam-launcher){
-  display: none !important;
-}
-html, body{
-  height: 100%;
-}
-body.mc-skin{
-  min-height: 100vh;
-  overflow-x: hidden;
+  display:none !important;
 }
