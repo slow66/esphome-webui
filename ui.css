@@ -105,3 +105,16 @@ body.mc-skin > *:not(#minicam-launcher) {
 html, body {
   height: 100%;
 }
+
+.mc-preview{
+  width:100%;
+  aspect-ratio: 16/10;
+  background: rgba(0,0,0,.25);
+  border-bottom: 1px solid var(--border);
+}
+.mc-preview img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+}
