@@ -118,3 +118,71 @@ html, body {
   object-fit: cover;
   display:block;
 }
+
+/* ---- Responsive layout upgrades ---- */
+
+#minicam-launcher{
+  padding: 14px max(14px, env(safe-area-inset-left)) 18px max(14px, env(safe-area-inset-right));
+}
+
+/* Let the card use the screen on mobile */
+.mc-wrap{
+  max-width: 920px;          /* larger on tablets */
+  margin: 0 auto;
+  width: 100%;
+}
+
+.mc-card{
+  width: 100%;
+}
+
+/* Preview: taller on phones, less letterboxing */
+.mc-preview{
+  aspect-ratio: 4 / 3;       /* phone-friendly */
+}
+@media (min-width: 560px){
+  .mc-preview{ aspect-ratio: 16 / 10; }  /* nicer on larger screens */
+}
+
+/* Buttons: responsive grid */
+.mc-row{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 14px;
+}
+
+@media (min-width: 560px){
+  .mc-row{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Buttons: slightly larger tap targets on phones */
+.mc-btn{
+  min-width: 0;              /* allow full shrink */
+  padding: 14px 12px;
+  font-size: 15px;
+}
+
+/* Tighten top bar on small screens */
+.mc-top{
+  padding: 12px;
+  border-radius: 16px;
+}
+.mc-title{
+  font-size: 16px;
+}
+.mc-sub{
+  font-size: 12px;
+}
+
+/* Make the whole thing sit higher and feel intentional */
+.mc-card{
+  border-radius: 18px;
+}
+
+/* Optional: reduce empty space below (if any wrappers leak through) */
+body.mc-skin{
+  overflow-x: hidden;
+}
