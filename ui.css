@@ -186,3 +186,135 @@ body.mc-skin{
 body.mc-skin > *:not(#minicam-launcher){
   display:none !important;
 }
+/* =========================================================
+   HARD OVERRIDES – keep at very bottom of ui.css
+   Goal: pad everything 10px, buttons 50px tall, modern layout
+   ========================================================= */
+
+:root{
+  --pad: 10px;
+  --r: 16px;
+}
+
+#minicam-launcher{
+  padding: var(--pad) !important;
+}
+
+/* Use full width and consistent spacing */
+#minicam-launcher .mc-wrap{
+  width: 100% !important;
+  max-width: 980px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--pad) !important;
+}
+
+/* Header */
+#minicam-launcher .mc-top{
+  padding: var(--pad) !important;
+  border-radius: var(--r) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: var(--pad) !important;
+}
+
+#minicam-launcher .mc-title{
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
+
+#minicam-launcher .mc-sub{
+  font-size: 13px !important;
+  opacity: .8 !important;
+}
+
+/* Card + labels */
+#minicam-launcher .mc-card{
+  border-radius: var(--r) !important;
+  overflow: hidden !important;
+}
+
+#minicam-launcher .mc-cardhead{
+  padding: var(--pad) !important;
+  display:flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-size: 13px !important;
+  opacity: .85 !important;
+}
+
+/* VIDEO: 10px padding around it + 16px radius */
+#minicam-launcher .mc-preview{
+  padding: var(--pad) !important;
+  background: transparent !important;
+}
+
+#minicam-launcher .mc-preview img,
+#minicam-launcher .mc-preview iframe{
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: var(--r) !important;
+  display:block !important;
+  object-fit: cover !important;
+  border: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Keep a sensible aspect ratio */
+#minicam-launcher .mc-preview{ aspect-ratio: 4 / 3 !important; }
+@media (min-width:560px){
+  #minicam-launcher .mc-preview{ aspect-ratio: 16 / 10 !important; }
+}
+
+/* BUTTONS: 50px tall, centered, chunky */
+#minicam-launcher .mc-row{
+  padding: var(--pad) !important;
+  gap: var(--pad) !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+}
+
+@media (max-width: 520px){
+  #minicam-launcher .mc-row{
+    grid-template-columns: 1fr !important;
+  }
+}
+
+#minicam-launcher a.mc-btn,
+#minicam-launcher button.mc-btn{
+  height: 50px !important;
+  min-height: 50px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: var(--r) !important;
+  padding: 0 14px !important;
+
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  letter-spacing: .2px !important;
+
+  text-decoration: none !important;
+  user-select: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Strong primary */
+#minicam-launcher .mc-btn.mc-primary{
+  filter: none !important;
+}
+
+/* Hint spacing */
+#minicam-launcher .mc-hint{
+  padding: 0 var(--pad) var(--pad) var(--pad) !important;
+  font-size: 13px !important;
+  opacity: .8 !important;
+}
+
+/* Nuke leftover ESPHome layout below */
+body.mc-skin > *:not(#minicam-launcher){
+  display:none !important;
+}
