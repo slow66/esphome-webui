@@ -94,3 +94,14 @@ body.mc-skin #content {
 
 /* If ESPHome wraps differently on your build, keep body background + our launcher visible */
 body.mc-skin #minicam-launcher { display:block !important; }
+
+/* Remove any leftover spacing from the ESPHome page below our launcher */
+body.mc-skin {
+  min-height: 100vh;
+}
+body.mc-skin > *:not(#minicam-launcher) {
+  display: none !important;
+}
+html, body {
+  height: 100%;
+}
