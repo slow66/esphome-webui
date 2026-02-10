@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>MiniCam Launcher</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#101a2e; --muted:#94a3b8; --text:#e5e7eb;
+      --border:rgba(255,255,255,.10); --accent:#3b82f6; --ok:#22c55e; --r:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; padding:16px;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background:
+        radial-gradient(900px 600px at 20% 0%, rgba(59,130,246,.22), transparent 55%),
+        radial-gradient(900px 600px at 90% -10%, rgba(34,197,94,.18), transparent 55%),
+        var(--bg);
+      color:var(--text);
+    }
+    .wrap{max-width:720px; margin:0 auto}
+    .top{
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+      padding:14px; border:1px solid var(--border); border-radius:var(--r);
+      background: rgba(16,26,46,.75); backdrop-filter: blur(10px);
+    }
+    .name{font-weight:800; letter-spacing:.2px}
+    .sub{font-size:12px; color:var(--muted); margin-top:2px}
+    .card{
+      margin-top:14px; border:1px solid var(--border); border-radius:var(--r);
+      background: rgba(16,26,46,.70); overflow:hidden;
+    }
+    .cardHead{
+      padding:12px 14px; border-bottom:1px solid var(--border);
+      color:var(--muted); font-size:13px;
+      display:flex; justify-content:space-between;
+    }
+    .content{padding:14px}
+    label{display:block; font-size:12px; color:var(--muted); margin-bottom:8px}
+    input{
+      width:100%; padding:12px 12px; border-radius:14px;
+      border:1px solid var(--border); background: rgba(255,255,255,.05);
+      color:var(--text); font-size:16px;
+      outline:none;
+    }
+    .row{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+    button,a.btn{
+      flex:1; min-width:140px;
+      display:inline-flex; justify-content:center; align-items:center;
+      padding:12px; border-radius:14px; border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      color:var(--text); font-weight:800; text-decoration:none;
+      cursor:pointer;
+    }
+    .primary{background: rgba(59,130,246,.22); border-color: rgba(59,130,246,.40)}
+    .hint{margin-top:10px; font-size:12px; color:var(--muted)}
+    .pill{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 12px; border-radius:999px; border:1px solid var(--border);
+      background: rgba(255,255,255,.04); color:var(--muted); font-size:12px;
+    }
+    .dot{width:8px; height:8px; border-radius:999px; background:#64748b}
+    .dot.ok{background:var(--ok)}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="name">MiniCam Launcher</div>
+        <div class="sub">Clean mobile buttons to open your ESP camera</div>
+      </div>
+      <div class="pill"><span class="dot" id="dot"></span><span id="status">Not checked</span></div>
+    </div>
+
+    <div class="card">
+      <div class="cardHead">
+        <div>Target device</div>
+        <div>IP or hostname</div>
+      </div>
+      <div class="content">
+        <label for="host">Enter your ESP host (example: 192.168.1.102 or espminicam1.local)</label>
+        <input id="host" placeholder="192.168.1.102" inputmode="url" autocomplete="off" />
+
+        <div class="row">
+          <button class="primary" id="openStream">Open Live Stream</button>
+          <button id="openSnap">Open Snapshot</button>
+        </div>
+
+        <div class="row">
+          <button id="openRoot">Open ESP Page</button>
+          <button id="check">Check Online</button>
+        </div>
+
+        <div class="hint">
+          Tip: On your phone, “Add to Home Screen” for an app-style shortcut.
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const hostEl = document.getElementById("host");
+  const dot = document.getElementById("dot");
+  const statusEl = document.getElementById("status");
+
+  // Remember last used host
+  hostEl.value = localStorage.getItem("minicam_host") || "192.168.1.102";
+  hostEl.addEventListener("input", () => localStorage.setItem("minicam_host", hostEl.value.trim()));
+
+  const getHost = () => hostEl.value.trim();
+
+  function openUrl(url){
+    // Use a real click to avoid popup blockers as much as possible
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  document.getElementById("openStream").onclick = () => openUrl(`http://${getHost()}:8080`);
+  document.getElementById("openSnap").onclick   = () => openUrl(`http://${getHost()}:8081`);
+  document.getElementById("openRoot").onclick   = () => openUrl(`http://${getHost()}/`);
+
+  async function checkOnline(){
+    const url = `http://${getHost()}:8081?ping=${Date.now()}`;
+    statusEl.textContent = "Checking…";
+    dot.classList.remove("ok");
+
+    try{
+      // no-cors: we only care if it’s reachable
+      await fetch(url, { mode:"no-cors", cache:"no-store" });
+      dot.classList.add("ok");
+      statusEl.textContent = "Reachable";
+    } catch(e){
+      dot.classList.remove("ok");
+      statusEl.textContent = "Not reachable";
+    }
+  }
+
+  document.getElementById("check").onclick = checkOnline;
+</script>
+</body>
+</html>
