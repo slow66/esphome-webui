@@ -9,7 +9,6 @@
     const panel = document.createElement("div");
     panel.id = "minicam-launcher";
 
-    // Build HTML without template literal nesting issues
     panel.innerHTML =
       '<div class="mc-wrap">' +
         '<div class="mc-top">' +
